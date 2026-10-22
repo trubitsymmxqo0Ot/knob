@@ -14,6 +14,9 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    host: '0.0.0.0',
+  },
   resolve: {
     alias: {
       'shared': path.resolve(__dirname, './src/shared'),

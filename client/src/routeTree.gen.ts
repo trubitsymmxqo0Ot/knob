@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CreateTasksRouteImport } from './routes/create-tasks'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisteryRouteImport } from './routes/registery'
 
 const CreateTasksRoute = CreateTasksRouteImport.update({
   id: '/create-tasks',
   path: '/create-tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisteryRoute = RegisteryRouteImport.update({
@@ -25,27 +31,31 @@ const RegisteryRoute = RegisteryRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/create-tasks': typeof CreateTasksRoute
+  '/login': typeof LoginRoute
   '/registery': typeof RegisteryRoute
 }
 export interface FileRoutesByTo {
   '/create-tasks': typeof CreateTasksRoute
+  '/login': typeof LoginRoute
   '/registery': typeof RegisteryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/create-tasks': typeof CreateTasksRoute
+  '/login': typeof LoginRoute
   '/registery': typeof RegisteryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/create-tasks' | '/registery'
+  fullPaths: '/create-tasks' | '/login' | '/registery'
   fileRoutesByTo: FileRoutesByTo
-  to: '/create-tasks' | '/registery'
-  id: '__root__' | '/create-tasks' | '/registery'
+  to: '/create-tasks' | '/login' | '/registery'
+  id: '__root__' | '/create-tasks' | '/login' | '/registery'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   CreateTasksRoute: typeof CreateTasksRoute
+  LoginRoute: typeof LoginRoute
   RegisteryRoute: typeof RegisteryRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/create-tasks'
       fullPath: '/create-tasks'
       preLoaderRoute: typeof CreateTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/registery': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   CreateTasksRoute: CreateTasksRoute,
+  LoginRoute: LoginRoute,
   RegisteryRoute: RegisteryRoute,
 }
 export const routeTree = rootRouteImport
