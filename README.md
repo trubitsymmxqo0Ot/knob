@@ -26,10 +26,14 @@ knob/<br>
 В корне проекта создайте файл `.env`:
 
 ```env
-POSTGRES_USER=your_user
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=your_db
+#Backend data
 BACKEND_PORT=4000
+
+#Backend data - postgres
+POSTGRES_PORT=4321
+POSTGRES_PASSWORD=user_password
+POSTGRES_DB=user_db
+POSTGRES_USER=user_name
 ```
 # Запуск через docker compose 
 
@@ -41,8 +45,8 @@ docker compose up -d --build
 
 ## Что поднимется:
 
--   db - PostgreSQL на хосте localhost:5000 (внутренняя сеть - 5432)
--   server - Express на хосте localhost:${ВАШ_ПОРТ} (или localhost:4000, если env не менялся, внутри - 4000)
+-   db - PostgreSQL на хосте localhost:${POSTGRES_PORT} (или localhost:4321, если env не менялся, внутренняя сеть - 5432)
+-   server - Express на хосте localhost:${BACKEND_PORT} (или localhost:4000, если env не менялся, внутри - 4000)
 -   client - Vite dev-сервер на localhost:3000 (внутри - 5173)
 
 *Сервер проверяется внутри docker compose по пути: http//:localhost:${BACKEND_PORT}/health*
@@ -85,7 +89,7 @@ npm run dev
 
 **nodemon запустит dev-server по пути localhost:{ВАШ_ПОРТ} (стандартно localhsot:4000)**
 
-**Запустите prisma studio для отслеживания изменений в бд**
+**Запустите prisma studio для отслеживания изменений в бд**<br>
 *Важно: данные для подключения prisma studio берутся из .env, заполните их данными*
 
 ```bash
