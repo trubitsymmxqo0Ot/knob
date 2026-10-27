@@ -11,10 +11,10 @@
 - **infra** — Docker Compose (db + server + client в контейнерах)
 
 ## Структура
-knob/
-├── client/ # фронтенд (Vite + React)
-├── server/ # бэкенд (Node.js + Express)
-└── docker-compose.yml
+knob/<br>
+├── client/ # фронтенд (Vite + React)<br>
+├── server/ # бэкенд (Node.js + Express)<br>
+└── docker-compose.yml<br>
 
 ## Требования
 - Node.js 20+ (рекомендуется 24.x)
@@ -75,6 +75,8 @@ cd server
 npm install
 npm run dev
 ```
+
+**nodemon запустит dev-server по пути localhost:{ВАШ_ПОРТ} (стандартно localhsot:4000)**
 
 ## client
 
