@@ -62,7 +62,14 @@ npm -g pnpm
 
 ## server
 
-Поднимите базу данных через docker compose (комнады выше)
+**Поднимите базу данных через отдельный файл docker compose**
+
+*находясь в корне проекта*
+```bash
+docker compose -f data-base.yml up -d
+```
+
+**Установите зависимости**
 
 ```bash
 cd sever
@@ -77,6 +84,13 @@ npm run dev
 ```
 
 **nodemon запустит dev-server по пути localhost:{ВАШ_ПОРТ} (стандартно localhsot:4000)**
+
+**Запустите prisma studio для отслеживания изменений в бд**
+*Важно: данные для подключения prisma studio берутся из .env, заполните их данными*
+
+```bash
+pnpm studio
+```
 
 ## client
 
