@@ -1,6 +1,7 @@
 services:
     db:
         image: postgres:16-alpine
+        container_name: db_dev
         restart: always
         ports:
             - "${POSTGRES_PORT}:5432"

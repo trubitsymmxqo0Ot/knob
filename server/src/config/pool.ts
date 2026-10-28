@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import { Env } from "./env.config";
 
 export const pool = new Pool({
-    host: 'db',
+    host: 'localhost',
     port: Number(Env.POSTGRES_PORT) || 7000,
     user: Env.POSTGRES_USER,
     password: Env.POSTGRES_PASSWORD,

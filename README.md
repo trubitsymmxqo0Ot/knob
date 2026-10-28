@@ -14,7 +14,8 @@
 knob/<br>
 ├── client/ # фронтенд (Vite + React)<br>
 ├── server/ # бэкенд (Node.js + Express)<br>
-└── docker-compose.yml<br>
+├── docker-compose.yml<br>
+└── .env<br>
 
 ## Требования
 - Node.js 20+ (рекомендуется 24.x)
@@ -34,6 +35,7 @@ POSTGRES_PORT=4321
 POSTGRES_PASSWORD=user_password
 POSTGRES_DB=user_db
 POSTGRES_USER=user_name
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}
 ```
 # Запуск через docker compose 
 
@@ -61,7 +63,7 @@ docker compose down -v
 
 *Перед установкой зависимостей рекомендуется поставить pnpm пакет*
 ```bash
-npm -g pnpm
+npm install -g pnpm
 ```
 
 ## server
@@ -86,11 +88,20 @@ cd server
 npm install
 npm run dev
 ```
+**nodemon запустит dev-server по пути localhost:{BACKEND_PORT} (стандартно localhsot:4000)**
 
-**nodemon запустит dev-server по пути localhost:{ВАШ_ПОРТ} (стандартно localhsot:4000)**
+**Изменить таблицы и или схему можно с помощью migrate команды внутри папки server:**
+```bash
+pnpm run migrate -- create MIGRATE_NAME
+```
+*Далее сгенерируется новый файл migrate в корне проекта, нужно заполнить его своими данными (миграционный файл уже готов)*
+**Обновить миграцию**
+```bash
+pnpm run migrate up
+```
 
 **Запустите prisma studio для отслеживания изменений в бд**<br>
-*Важно: данные для подключения prisma studio берутся из .env, заполните их данными*
+*Важно: данные для подключения prisma studio берутся из .env, заполните их данными. Сам env нужно класть в корень проекта, рядом с папками server и client*
 
 ```bash
 pnpm studio
