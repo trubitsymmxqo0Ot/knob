@@ -1,1 +1,1 @@
-export type Database = 'user_data' | 'token';
+export type Database = 'user_data' | 'tokens';

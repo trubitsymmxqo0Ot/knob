@@ -1,10 +1,13 @@
 import { Router } from 'express';
-import { signController } from '../controllers/sign/sign-controller';
+import { signUpController } from '../auth/sign-up/controller';
+import { signIngController } from '../auth/sign-in/controller';
+import { logoutController } from '../auth/logout/controller';
+import { deleteController } from '../auth/delete/controller';
 
-const user_routes = Router();
-user_routes.post('/sign-up', (req, res) => signController.signUp(req, res));
-// user_routes.post('/sign-in');
-// user_routes.post('/login');
-// user_routes.post('/logout');
+const userRoutes = Router();
+userRoutes.post('/sign-up', (req, res) => signUpController.signUp(req, res));
+userRoutes.post('/sign-in', (req, res) => signIngController.signIn(req, res));
+userRoutes.post('/logout', (req, res) => logoutController.logout(req, res));
+userRoutes.post('/delete', (req, res) => deleteController.delete(req, res));
 
-export default user_routes;
+export default userRoutes;

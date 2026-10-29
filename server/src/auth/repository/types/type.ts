@@ -5,9 +5,3 @@ export interface DBUserResponse {
     name: string;
     password: string;
 }
-
-export interface RequestUserBody {
-    email: string;
-    name: string;
-    password: string;
-}

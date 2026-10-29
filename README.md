@@ -36,6 +36,8 @@ POSTGRES_PASSWORD=user_password
 POSTGRES_DB=user_db
 POSTGRES_USER=user_name
 DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}
+JWT_ACCESS_SECRET=secret_access_token
+JWT_REFRESH_SCRET=secret_refresh_token
 ```
 # Запуск через docker compose 
 
@@ -51,7 +53,7 @@ docker compose up -d --build
 -   server - Express на хосте localhost:${BACKEND_PORT} (или localhost:4000, если env не менялся, внутри - 4000)
 -   client - Vite dev-сервер на localhost:3000 (внутри - 5173)
 
-*Сервер проверяется внутри docker compose по пути: http//:localhost:${BACKEND_PORT}/health*
+*Сервер проверяется внутри docker compose по пути: http//:localhost:${BACKEND_PORT}/meta/health*
 
 Остановить:
 
