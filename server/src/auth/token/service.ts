@@ -45,8 +45,8 @@ class TokenService implements TokenServiceResponse {
         return decodingToken as DataFromRefToken;
     }
 
-    validateTokens(token: string) {
-        const validate = jwt.verify(token, Env.JWT_ACCESS_SECRET || '');
+    validateTokens(token: string, secret: string) {
+        const validate = jwt.verify(token, secret);
         return validate;
     }
 }

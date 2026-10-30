@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import meta from './routes/meta';
 import userRoutes from './routes/sign-routes';
 import { errorMiddleware } from './auth/middlewares/error-middleware';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
 
 export const app = express(); 
 
@@ -12,6 +14,7 @@ const PORT = Env.BACKEND_PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/meta', meta);
 app.use('/user', userRoutes);
 app.use(errorMiddleware);

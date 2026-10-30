@@ -9,6 +9,9 @@ class ActiveController {
 
             const path = req.params.activate;
             const token = await cookiesObject.getRefreshToken(req);
+
+            if(!token) throw ApiError.UnauthorizedError();
+
             const response = await activeServices.active(path, token);
 
             if(!response) throw ApiError.BadRequest('Неизвестная ошибка при попытке активировать аккаунт');

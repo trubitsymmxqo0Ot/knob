@@ -17,7 +17,7 @@ class Cookies {
         })
     }
 
-    getRefreshToken(req: Request): Promise<string> {
+    getRefreshToken(req: Request): Promise<string | undefined> {
         const {refreshToken} = req.cookies;
         return refreshToken;
     }

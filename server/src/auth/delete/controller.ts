@@ -8,6 +8,9 @@ class DeleteController {
         try {
 
             const token = await cookiesObject.getRefreshToken(req);
+
+            if(!token) throw ApiError.UnauthorizedError();
+
             const deleted = await deleteServices.delete(token);
 
             if (!deleted) throw ApiError.BadRequest('Ошибка при попытке удалить аккаунт');

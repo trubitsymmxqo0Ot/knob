@@ -3,6 +3,7 @@ import { SignInParams } from './type';
 import { signInService } from './services';
 import { cookiesObject } from '../lib/cookies';
 import { ApiError } from '../exceptions/api-error';
+import { responseDto } from '../dto/responseDto';
 
 class SignInController {
   async signIn(req: SignInParams, res: Response, next: NextFunction): Promise<void> {
@@ -14,11 +15,7 @@ class SignInController {
       if (!response) throw ApiError.BadRequest('Ошибка при попытке войти в аккаунт');
 
       cookiesObject.saveTokens(res, response.refreshToken, response.accessToken);
-      const returnedData = {
-        name: response.name,
-        email: response.email,
-        createdAt: response.createdAt,
-      }
+      const returnedData = new responseDto(response.name, response.email, response.createdAt)
 
       res.json(returnedData);
 

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../exceptions/api-error";
 import { tokenService } from "../token/service";
+import { Env } from "../../config/env.config";
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     try {
@@ -10,7 +11,7 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
         const accessToken = authorizationHeader.split(' ')[1];
         if(!accessToken) return next(ApiError.UnauthorizedError());
 
-        const userData = tokenService.validateTokens(accessToken);
+        const userData = tokenService.validateTokens(accessToken, Env.JWT_ACCESS_SECRET || '');
         if(!userData) throw ApiError.UnauthorizedError();
 
         req.user = userData;

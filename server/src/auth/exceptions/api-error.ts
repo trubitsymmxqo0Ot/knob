@@ -1,5 +1,3 @@
-import { Response } from "express";
-
 export class ApiError extends Error {
     status: number;
     errors: string[];

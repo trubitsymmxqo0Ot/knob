@@ -8,6 +8,9 @@ class LogoutController {
         try {
 
             const token = await cookiesObject.getRefreshToken(req);
+
+            if(!token) throw ApiError.UnauthorizedError();
+
             const deleteToken = await logoutServices.logout({ token });
 
             if (!deleteToken) throw ApiError.BadRequest('Не удалось удалить токен');
