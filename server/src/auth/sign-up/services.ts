@@ -19,6 +19,7 @@ class SignUpServices {
         const savedTokens = await tokenService.saveToken(userDTO.id, tokens.refreshToken);
 
         return {
+            id: userDTO.id,
             email: userDTO.email,
             name: userDTO.name,
             createdAt: userDTO.createdAt,

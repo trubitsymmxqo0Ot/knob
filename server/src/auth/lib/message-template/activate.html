@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Активация аккаунта</title>
+        <!-- CSS инлайнится при отправке, но для предпросмотра можно подключить -->
+        <link rel="stylesheet" href="activation-email.css" />
+    </head>
+    <body
+        style="
+            margin: 0;
+            padding: 0;
+            background-color: #0f1115;
+            font-family: &quot;Segoe UI&quot;, Arial, sans-serif;
+        "
+    >
+        <table
+            role="presentation"
+            width="100%"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+            style="background-color: #0f1115; padding: 40px 0"
+        >
+            <tr>
+                <td align="center">
+                    <table
+                        role="presentation"
+                        width="600"
+                        cellspacing="0"
+                        cellpadding="0"
+                        border="0"
+                        style="
+                            max-width: 600px;
+                            width: 100%;
+                            background-color: #171a21;
+                            border-radius: 20px;
+                            overflow: hidden;
+                            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                        "
+                    >
+                        <!-- Хедер с градиентом -->
+                        <tr>
+                            <td
+                                style="
+                                    background: linear-gradient(
+                                        135deg,
+                                        #6d5dfc 0%,
+                                        #b04dfc 100%
+                                    );
+                                    padding: 40px 40px 30px;
+                                    text-align: center;
+                                "
+                            >
+                                <div
+                                    style="
+                                        font-size: 48px;
+                                        line-height: 1;
+                                        margin-bottom: 12px;
+                                    "
+                                >
+                                    🔐
+                                </div>
+                                <h1
+                                    style="
+                                        margin: 0;
+                                        color: #ffffff;
+                                        font-size: 26px;
+                                        font-weight: 700;
+                                        letter-spacing: -0.5px;
+                                    "
+                                >
+                                    Активация аккаунта
+                                </h1>
+                                <p
+                                    style="
+                                        margin: 10px 0 0;
+                                        color: rgba(255, 255, 255, 0.85);
+                                        font-size: 14px;
+                                    "
+                                >
+                                    Остался один шаг до начала работы
+                                </p>
+                            </td>
+                        </tr>
+
+                        <!-- Тело письма -->
+                        <tr>
+                            <td style="padding: 40px">
+                                <p
+                                    style="
+                                        margin: 0 0 16px;
+                                        color: #e6e8ee;
+                                        font-size: 16px;
+                                        line-height: 1.6;
+                                    "
+                                >
+                                    Привет,
+                                    <strong style="color: #ffffff"
+                                        >{{name}}</strong
+                                    >!
+                                </p>
+                                <p
+                                    style="
+                                        margin: 0 0 24px;
+                                        color: #a3a8b8;
+                                        font-size: 15px;
+                                        line-height: 1.6;
+                                    "
+                                >
+                                    Спасибо за регистрацию. Чтобы активировать
+                                    аккаунт и получить доступ ко всем
+                                    возможностям, нажмите на кнопку ниже.
+                                </p>
+
+                                <!-- Кнопка активации -->
+                                <table
+                                    role="presentation"
+                                    cellspacing="0"
+                                    cellpadding="0"
+                                    border="0"
+                                    style="margin: 0 auto 32px"
+                                >
+                                    <tr>
+                                        <td
+                                            align="center"
+                                            style="
+                                                border-radius: 12px;
+                                                background: linear-gradient(
+                                                    135deg,
+                                                    #6d5dfc 0%,
+                                                    #b04dfc 100%
+                                                );
+                                            "
+                                        >
+                                            <a
+                                                href="{{activationLink}}"
+                                                target="_blank"
+                                                style="
+                                                    display: inline-block;
+                                                    padding: 16px 40px;
+                                                    font-size: 16px;
+                                                    font-weight: 600;
+                                                    color: #ffffff;
+                                                    text-decoration: none;
+                                                    border-radius: 12px;
+                                                    cursor: pointer;
+                                                "
+                                            >
+                                                Активировать аккаунт
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <!-- Альтернативная ссылка -->
+                                <p
+                                    style="
+                                        margin: 0 0 8px;
+                                        color: #a3a8b8;
+                                        font-size: 13px;
+                                        line-height: 1.6;
+                                    "
+                                >
+                                    Если кнопка не работает, скопируйте ссылку:
+                                </p>
+                                <p
+                                    style="
+                                        margin: 0 0 24px;
+                                        padding: 12px 16px;
+                                        background-color: #0f1115;
+                                        border-radius: 10px;
+                                        border: 1px solid #262b36;
+                                        word-break: break-all;
+                                        font-size: 12px;
+                                        color: #6d5dfc;
+                                        font-family:
+                                            &quot;Courier New&quot;, monospace;
+                                    "
+                                >
+                                    {{activationLink}}
+                                </p>
+
+                                <hr
+                                    style="
+                                        border: none;
+                                        border-top: 1px solid #262b36;
+                                        margin: 24px 0;
+                                    "
+                                />
+
+                                <p
+                                    style="
+                                        margin: 0;
+                                        color: #6b7080;
+                                        font-size: 12px;
+                                        line-height: 1.6;
+                                    "
+                                >
+                                    Если вы не регистрировались в нашем сервисе,
+                                    просто проигнорируйте это письмо. Ссылка
+                                    действительна 24 часа.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

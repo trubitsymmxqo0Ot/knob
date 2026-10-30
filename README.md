@@ -10,7 +10,11 @@
 - **db** — PostgreSQL 16 (Alpine)
 - **infra** — Docker Compose (db + server + client в контейнерах)
 
-## Структура
+## Реализованный функционал
+-   Возможность активировать аккаунт через почту
+-   Регистрация/вход/выход/удаление/ аккаунта
+
+## Структура1
 knob/<br>
 ├── client/ # фронтенд (Vite + React)<br>
 ├── server/ # бэкенд (Node.js + Express)<br>
@@ -29,6 +33,7 @@ knob/<br>
 ```env
 #Backend data
 BACKEND_PORT=4000
+APP_URL='http://localhost'
 
 #Backend data - postgres
 POSTGRES_PORT=4321
@@ -38,7 +43,14 @@ POSTGRES_USER=user_name
 DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}
 JWT_ACCESS_SECRET=secret_access_token
 JWT_REFRESH_SCRET=secret_refresh_token
+
+#Backend data - nodemailer
+GMAIL_PASSWORD=16_symbols_pass
+GMAIL=gmail_login
 ```
+
+*Для отправки писем по почте (для активации пароля), используется nodemailer, в аккаунте google нужно ключить 2 этапную аутентификацию и сгенерировать 16-и символьный пароль*
+
 # Запуск через docker compose 
 
 Из корня проекта:

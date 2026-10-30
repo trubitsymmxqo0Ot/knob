@@ -9,3 +9,11 @@ export interface TokenServiceResponse {
     createTokens: (payload: UserDTOResponse) => ReturnedTokens;
 }
 
+export interface DataFromRefToken {
+    name: string;
+    email: string;
+    createdAt: string;
+    id: string;
+    lat: number;
+    exp: number;
+} 

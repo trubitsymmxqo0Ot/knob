@@ -5,3 +5,7 @@ export interface DBUserResponse {
     name: string;
     password: string;
 }
+
+export interface DBUpdateData {
+    
+}

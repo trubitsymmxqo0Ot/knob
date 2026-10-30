@@ -1,5 +1,6 @@
 
 export interface ReturnedUserValue {
+  id: string;
   email: string;
   name: string;
   createdAt: string;
@@ -26,6 +27,7 @@ export interface ReturnedDBUserValue {
   email: string;
   name: string;
   password: string;
+  isActive: boolean;
 }
 
 export interface ReturnedDBTokensValue {

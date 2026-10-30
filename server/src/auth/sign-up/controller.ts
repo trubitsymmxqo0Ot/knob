@@ -2,6 +2,8 @@ import { cookiesObject } from "../lib/cookies";
 import { signUpServices } from "./services";
 import { Response } from "express";
 import { Params } from "./type";
+import { activeController } from "../active/controller";
+import { mailSend } from "../lib/mail-send";
 
 class SignUpController {
    async signUp(req: Params, res: Response): Promise<Response> {
@@ -18,7 +20,9 @@ class SignUpController {
          email: response.email,
          createdAt: response.createdAt
        }
- 
+       
+       mailSend.send(response.email, response.id);
+
        return res.json(returnedData);
  
      } catch (e) {

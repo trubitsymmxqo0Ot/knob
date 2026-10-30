@@ -8,6 +8,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
         name: { type: 'varchar(255)', notNull: true },
         email: { type: 'varchar(255)', notNull: true, unique: true },
         password: { type: 'text', notNull: true },
+        isActive: { type: 'boolean', notNull: true },
         createdAt: {
             type: 'timestamptz',
             notNull: true,

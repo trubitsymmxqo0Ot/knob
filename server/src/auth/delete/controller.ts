@@ -9,7 +9,7 @@ class DeleteController {
             const deleted = await deleteServices.delete(token);
             if (!deleted) throw new Error('Failed to delete user');
             cookiesObject.deleteBothTokens(res);
-            return res.status(200).json('');
+            return res.status(200).json('Deleted success');
         } catch (e) {
             res.status(500).json('An unknown error occured while delete from account');
         }
