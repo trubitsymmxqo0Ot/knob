@@ -2,6 +2,7 @@ import path from "path";
 import { Env } from "../../config/env.config";
 import { transporter } from "../../config/nodemailer";
 import fs from 'fs';
+import { ApiError } from "../exceptions/api-error";
 
 class MailSend {
     private verifyMailer() {
@@ -19,7 +20,7 @@ class MailSend {
 
     async send(mail: string, id: string) {
         const isVerify = this.verifyMailer();
-        if (isVerify) throw new Error('Error');
+        if (isVerify) throw ApiError.BadRequest('Отправить подтверждение для аккаунта невозможно');
 
         let templatePath = path.join(__dirname, './message-template/activate.html')
         let html = fs.readFileSync(templatePath, 'utf-8');

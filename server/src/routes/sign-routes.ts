@@ -4,12 +4,43 @@ import { signIngController } from '../auth/sign-in/controller';
 import { logoutController } from '../auth/logout/controller';
 import { deleteController } from '../auth/delete/controller';
 import { activeController } from '../auth/active/controller';
+import { emailValidator, nameValidator, passwordValidator } from '../config/validator';
+import { authMiddleware } from '../auth/middlewares/auth-middleware';
 
 const userRoutes = Router();
-userRoutes.post('/sign-up', (req, res) => signUpController.signUp(req, res));
-userRoutes.post('/sign-in', (req, res) => signIngController.signIn(req, res));
-userRoutes.post('/logout', (req, res) => logoutController.logout(req, res));
-userRoutes.post('/delete', (req, res) => deleteController.delete(req, res));
-userRoutes.post('/activate/:activate', (req, res) => activeController.active(req, res));
+
+userRoutes.post(
+    '/sign-up',
+    emailValidator(),
+    nameValidator(),
+    passwordValidator(),
+    signUpController.signUp
+);
+
+userRoutes.post(
+    '/sign-in',
+    emailValidator(),
+    nameValidator(),
+    passwordValidator(),
+    signIngController.signIn
+);
+
+userRoutes.post(
+    '/logout',
+    authMiddleware,
+    logoutController.logout
+);
+
+userRoutes.post(
+    '/delete',
+    authMiddleware,
+    deleteController.delete
+);
+
+userRoutes.post(
+    '/activate/:activate',
+    authMiddleware,
+    activeController.active
+);
 
 export default userRoutes;

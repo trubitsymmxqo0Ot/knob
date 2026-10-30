@@ -1,9 +1,10 @@
 import { Env } from "../../config/env.config";
 import { UserDTOResponse } from "../dto/types/user-types";
+import { ApiError } from "../exceptions/api-error";
 import { find } from "../repository/find";
 import { save } from "../repository/save";
 import { DataFromRefToken, ReturnedTokens, TokenServiceResponse } from "./types";
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 class TokenService implements TokenServiceResponse {
     createTokens(payload: UserDTOResponse): ReturnedTokens {
@@ -20,15 +21,19 @@ class TokenService implements TokenServiceResponse {
     async saveToken(userId: string, refreshToken: string) {
         try {
             const findToken = await find.hasData(refreshToken, '"refreshToken"', 'tokens');
-            if (findToken) throw new Error('Token already exist');
+
+            if (findToken) throw ApiError.BadRequest('Токен уще существует');
+
             const token = await save.saveToken(userId, refreshToken);
             return token;
         } catch (e) {
-            console.error(e);
-            if (e instanceof Error) {
-                throw new Error('Something went wrong', { cause: e });
+            if (e instanceof ApiError) {
+                throw e;
             }
-            throw e;
+            if (e instanceof Error) {
+                throw ApiError.BadRequest(e.message, e);
+            }
+            throw ApiError.UnknownError(500, 'Произошла неизвестная ошибка при попытке сохранить токен', e);
         }
     }
 
@@ -38,6 +43,11 @@ class TokenService implements TokenServiceResponse {
             return null;
         }
         return decodingToken as DataFromRefToken;
+    }
+
+    validateTokens(token: string) {
+        const validate = jwt.verify(token, Env.JWT_ACCESS_SECRET || '');
+        return validate;
     }
 }
 

@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import meta from './routes/meta';
 import userRoutes from './routes/sign-routes';
+import { errorMiddleware } from './auth/middlewares/error-middleware';
 
 export const app = express(); 
 
@@ -13,7 +14,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use('/meta', meta);
 app.use('/user', userRoutes);
-
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
     console.log(`Server is running at ${PORT}`)
