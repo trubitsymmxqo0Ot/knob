@@ -24,7 +24,7 @@ class MailSend {
 
         let templatePath = path.join(__dirname, './message-template/activate.html')
         let html = fs.readFileSync(templatePath, 'utf-8');
-        const activateLink = `${Env.APP_URL}:${Env.BACKEND_PORT}/user/activate/${id}`;
+        const activateLink = `${Env.VITE_APP_URL}:${Env.VITE_BACKEND_PORT}/user/activate/${id}`;
         html = html
         .replace(/{{name}}/g, mail.split('@')[0])
         .replace(/{{activationLink}}/g, activateLink);

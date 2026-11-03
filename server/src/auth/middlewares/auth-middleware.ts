@@ -2,8 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../exceptions/api-error";
 import { tokenService } from "../token/service";
 import { Env } from "../../config/env.config";
+import { JwtPayload } from "jsonwebtoken";
 
-export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
+interface MiddleWareRequest extends Request {
+    user?: string | JwtPayload;
+}
+
+export async function authMiddleware(req: MiddleWareRequest, res: Response, next: NextFunction) {
     try {
         const authorizationHeader = req.headers.authorization;
         if(!authorizationHeader) throw ApiError.UnauthorizedError();

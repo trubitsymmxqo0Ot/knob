@@ -14,6 +14,7 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  envDir: path.resolve(__dirname, '../.env'),
   server: {
     host: '0.0.0.0',
   },

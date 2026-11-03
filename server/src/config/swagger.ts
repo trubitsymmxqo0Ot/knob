@@ -11,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: `${Env.APP_URL}:${Env.BACKEND_PORT}`,
+        url: `${Env.VITE_APP_URL}:${Env.VITE_BACKEND_PORT}`,
         description: 'Development server',
       },
     ],

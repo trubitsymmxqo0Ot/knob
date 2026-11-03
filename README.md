@@ -34,8 +34,8 @@ knob/<br>
 
 ```env
 #Backend data
-BACKEND_PORT=4000
-APP_URL='http://localhost'
+VITE_BACKEND_PORT=4000
+VITE_APP_URL='http://localhost'
 
 #Backend data - postgres
 POSTGRES_PORT=4321
@@ -64,10 +64,10 @@ docker compose up -d --build
 ## Что поднимется:
 
 -   db - PostgreSQL на хосте localhost:${POSTGRES_PORT} (или localhost:4321, если env не менялся, внутренняя сеть - 5432)
--   server - Express на хосте localhost:${BACKEND_PORT} (или localhost:4000, если env не менялся, внутри - 4000)
+-   server - Express на хосте localhost:${VITE_BACKEND_PORT} (или localhost:4000, если env не менялся, внутри - 4000)
 -   client - Vite dev-сервер на localhost:3000 (внутри - 5173)
 
-*Сервер проверяется внутри docker compose по пути: http//:localhost:${BACKEND_PORT}/meta/health*
+*Сервер проверяется внутри docker compose по пути: http//:localhost:${VITE_BACKEND_PORT}/meta/health*
 
 Остановить:
 
@@ -104,7 +104,7 @@ cd server
 npm install
 npm run dev
 ```
-**nodemon запустит dev-server по пути localhost:{BACKEND_PORT} (стандартно localhsot:4000)**
+**nodemon запустит dev-server по пути localhost:{VITE_BACKEND_PORT} (стандартно localhsot:4000)**
 
 **Изменить таблицы и/или схему можно с помощью migrate команды внутри папки server:**
 ```bash
@@ -147,7 +147,7 @@ npm run dev
 **Swagger устанавливается вместе с остальными пакетами, ссылка на документацию находится по пути:**
 
 ```bash
-{{env.APP_URL}}:{{env.BACKEND_PORT}}/docs
+{{env.VITE_APP_URL}}:{{env.VITE_BACKEND_PORT}}/docs
 ```
 *Стандартно*
 ```bash
