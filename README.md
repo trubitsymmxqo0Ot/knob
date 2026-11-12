@@ -1,167 +1,172 @@
-# Knob - pet project, вдохновленный Jira
+# Knob — pet project, вдохновлённый Jira
 
-Минималистичный трекер задач с досками, пользователями и статусами.
-Задуман как pet project, который можно стянуть себе, запустить локально и 
-использовать как основу для расширения собственной задумки.
+Минималистичный трекер задач с досками, пользователями и статусами.  
+Можно клонировать, поднять локально и развивать под свои задачи.
 
-# Структура
-knob/<br> 
-├── client/ *фронтенд*<br>
-└───┐ <br>
-    ├── src/ *рабочие файлы (по fsd архитектуре)*<br>
-    ├── Dockerfile *настройка docker контейнера для показа*<br>
-    ├── ...others *конфигурационные файлы (что именно установлено можно прочесть в стеке)*<br>
-┌───┘ <br>
-├── server/ *серверная часть*<br>
-└───┐ <br>
-    ├── migrations/ *миграционные файлы для postgresql* <br>
-    ├── src/ *рабочие файлы (по mvc)* <br>
-    └───┐ <br>
-        ├── auth/ *сущность пользователя, которая относится к авторизации/верификации и т.д.*<br>
-        └───┐ <br>
-            ├── sign-in/ *пример одной из ручек с конкретными действиями (вход в аккаунт)* <br>
-            └───┐ <br>
-                ├── controller.ts/ *слой, отвечающий за принятие данных и возврат готового ответа*<br>
-                ├── services.ts/ *слой, отвечающий за преобразование данных и работу, бд и т.д.*<br>
-                ├── types.ts/ *типы, которые относятся только к этой конкретной ручке* <br>
-            ┌───┘ <br>
-            ├── repository/ *действия, связанные с бд (удалить, обновить и т.п.) и проверка данных* <br>
-            ├── middleware/ *middleware, относящиеся ко всем конкретным действиям внутри сущности* <br>
-            ├── types/ *общие типы для множества ручек* <br>
-            ├── lib/ *общие вспомогательные функции* <br>
-            ├── exceptions/ *кастомные ошибки* <br>
-            ├── dto/ *классы общего назначения для определения возвращаемых на клиент полец* <br>
-        ┌───┘ <br>
-        ├── config/ *настройки, под конкретные пакеты* <br>
-        ├── meta/ *метовые ручки, которые не будут использованы на клиенте, но нужны для тестов* <br>
-        ├── routes/ *роуты, по которым клиент будет обращаться на сервер (внутри файлов описан также сваггер)* <br>
-        ├── index.ts/ *точка входа в приложние* <br>
-    ┌───┘ <br>
-    ├── Dockerfile *настройки конфигурация докера* <br>
-    ├── ...others *прочие конфигурационные файлы* <br>
-┌───┘ <br>
-├── .env/ *тут должен храниться .env файл (он находится в .gitignore)* <br>
-├── data-base.yml/ *yml файл, который поднимает только то, что нужно для разработки* <br>
-├── docker-compose.yml/ *yml файл, который поднимает все части приложения (фронт, бэк, бд и т.д.)* <br>
-└── README.md - *описание проекта* <br>
+## Структура
 
-# Стек
-- *client* - **Vite + React, Typescript, Heroui, Tanstack Router, Axios, Tailwind и т.д.**
-- *server* - **Express, Typescript, Bcrypt, Cors, Cookie-parser, Dotenv, Jsonwebtoken, Nodemailer, Pg и т.д.**
-- *root* - **Docker, Swagger и т.д.**
+Дерево ниже — обычный блок кода: отображается ровно, без `<br>` и съезжающих отступов в Git/GitHub.
 
-# Ключевой функционал
--   Взаимодействие с аккаунтом (регистрация, удаление, вход, выход и т.д.)
--   Активация аккаунта
--   Поднятие контейнера с полным набором (фронт, бэк, бд и т.д.), либо облегченный вариант для разработки
--   Swagger документация
+```
+knob/
+├── client/                              # фронтенд
+│   ├── src/                             # FSD: app, pages, widgets, features, entities, shared
+│   ├── Dockerfile                       # образ для Docker Compose
+│   └── …                                # vite.config, package.json и т.д.
+│
+├── server/                              # бэкенд
+│   ├── migrations/                      # миграции PostgreSQL (node-pg-migrate)
+│   ├── src/
+│   │   ├── auth/                        # пользователь: auth, JWT, почта
+│   │   │   ├── sign-in/                 # пример ручки
+│   │   │   │   ├── controller.ts        # приём запроса и ответ клиенту
+│   │   │   │   ├── services.ts          # бизнес-логика, работа с БД
+│   │   │   │   └── type.ts              # типы этой ручки
+│   │   │   ├── sign-up/, refresh/, …    # остальные auth-ручки — та же схема
+│   │   │   ├── repository/              # save, find, update, remove
+│   │   │   ├── middlewares/             # auth, error-middleware
+│   │   │   ├── types/                   # общие типы auth
+│   │   │   ├── lib/                     # cookies, mail, helpers
+│   │   │   ├── exceptions/              # ApiError и др.
+│   │   │   └── dto/                     # что отдаём на клиент
+│   │   ├── config/                      # pool, env, swagger, validator
+│   │   ├── meta/                        # health, clear (не для клиента)
+│   │   ├── routes/                      # sign-routes, meta (+ Swagger в комментариях)
+│   │   └── index.ts                     # точка входа Express
+│   ├── Dockerfile
+│   └── …
+│
+├── .env                                 # в корне, в .gitignore
+├── data-base.yml                        # dev: в основном PostgreSQL
+├── docker-compose.yml                   # полный стек: db + server + client
+└── README.md
+```
 
-#Требования для работы с проектом
--   Node.js 20+
--   pnpm 10+
--   Docker Desktop
+## Стек
 
-**!В корне проекта обязательно нужно будет создать .env и заполнить его следующими заддными:**
+| Часть | Технологии |
+|--------|------------|
+| **client** | Vite, React, TypeScript, HeroUI, TanStack Router, React Query, Axios, Tailwind |
+| **server** | Express, TypeScript, bcrypt, cors, cookie-parser, JWT, nodemailer, `pg`, node-pg-migrate |
+| **инфра** | Docker, Swagger (`/docs`) |
+
+## Функционал
+
+- Регистрация, вход, выход, refresh-сессия, удаление аккаунта
+- Активация аккаунта по e-mail (nodemailer)
+- Docker: полный compose или облегчённый вариант для разработки
+- Документация API: Swagger UI
+
+## Требования
+
+- Node.js 20+
+- pnpm 10+ (в проекте зафиксирован `pnpm@12.14.0`)
+- Docker Desktop (для PostgreSQL в контейнере)
+
+## Переменные окружения
+
+В **корне** репозитория создайте файл `.env` (шаблон):
+
 ```env
-#Backend data
+# Backend
 VITE_BACKEND_PORT=4000
-VITE_APP_URL='http://localhost'
+VITE_APP_URL=http://localhost
 
-#Backend data - postgres
+# PostgreSQL
 POSTGRES_PORT=4321
 POSTGRES_PASSWORD=your_password
 POSTGRES_DB=your_db_name
 POSTGRES_USER=your_db_username
 DATABASE_URL=postgresql://your_db_username:your_password@localhost:4321/your_db_name
+
 JWT_ACCESS_SECRET=your_access_secret_key
 JWT_REFRESH_SCRET=your_refresh_secret_key
 
-#Backend data - minio
+# Minio (зарезервировано под будущее)
 MINIO_ROOT_USER=your_minio_username
 MINIO_ROOT_PASSWORD=your_minio_password
 MINIO_PORT=9000
 
-#Backend data - nodemailer
-GMAIL_PASSWORD=16_symbols_pass
+# Nodemailer (Gmail)
 GMAIL=your_gmail_account_login
+GMAIL_PASSWORD=your_16_char_app_password
 ```
 
-**Для отправки писем по почте используется пакет nodemailer, чтобы успешно использовать этот функционал,**<br>
-**нужно включить в аккаунта, от лица которого будут отправляться письма, 2-х этапную аутентификацию, а также сгенерировать пароль.**
+Для почты через Gmail: включите двухфакторную аутентификацию и создайте **пароль приложения** (не обычный пароль от аккаунта).
 
-# Запуск проекта
-## Не для разработки
+> **Порт API:** клиент ходит на `VITE_APP_URL:VITE_BACKEND_PORT`. Убедитесь, что на этом порту слушает именно Express из `server`, а не другой локальный сервис.
 
-*Из корня проекта:*
+## Запуск
+
+### Production-like (всё в Docker)
+
+Из **корня** проекта:
+
 ```bash
 docker compose up -d --build
 ```
 
-*Что поднимется:*
--   db - Postgresql
--   server - Express на хосте
--   Client vite dev-сервер на localhost:3000 (внутри - 5173)
-**Порты для поднятие будут взяты на основе .env файла**
+Поднимается:
 
-*Остановить контейнеры:*
+- **db** — PostgreSQL
+- **server** — Express (порт с хоста берётся из `VITE_BACKEND_PORT`)
+- **client** — Vite в контейнере, снаружи обычно `http://localhost:3000` (внутри 5173)
+
+Остановка с удалением volumes:
+
 ```bash
 docker compose down -v
 ```
 
-## Для разработки
-*server:*
+### Локальная разработка
 
-**Нужно поднять легковесный docker compose yml и установить зависимости по команде:**
+#### 1. База данных
+
+Из **корня**:
+
 ```bash
-/*Находясь в корне проекта*/
-
 docker compose -f data-base.yml up -d
-
-pnpm install
 ```
 
-**Перейдите в папку server:**
+#### 2. Backend (`server/`)
+
 ```bash
 cd server
-```
-
-**Установите локальные зависимости для сервера и запустите его:**
-```bash
 pnpm install
 pnpm run dev
 ```
 
-**Чтобы работать с базой данных, нужно создать файл миграции по команде:**
+Миграции (только из `server/`):
+
 ```bash
+# 1. Создать файл
 pnpm run migrate -- create MIGRATE_NAME
-```
-**Далее, внутри файла внутри функций up/down описать изменения, исходя из документации pg pool.**
-**После чего внести изменения с помощью команды:**
-```bash
+
+# 2. Заполнить up/down в server/migrations/*.ts
+# 3. Применить
 pnpm run migrate up
 ```
 
-**Теперь запустите prisma studio для отслеживания изменений в бд:**
+Сначала опишите изменения в файле миграции, **потом** выполняйте `migrate up`. Повторно уже применённая миграция не перезапустится — для правок нужна новая миграция или откат (`migrate down`).
+
+Prisma Studio (просмотр данных, не замена миграций):
+
 ```bash
 pnpm studio
 ```
 
-**Посмотреть какие есть ручки можно не только в коде, но и в swagger по пути:**
-```bash
-{{env.VITE_APP_URL}}:{{env.VITE_BACKEND_PORT}}/docs
-```
-**Стандартно**
-```bash
-http://localhost:4000/docs
-```
+Swagger:
 
-*client*
+- [http://localhost:4000/docs](http://localhost:4000/docs) (если `VITE_BACKEND_PORT=4000`)
 
-**Перейдите в client файл и установите зависимости:**
+#### 3. Frontend (`client/`)
+
 ```bash
-cd /client
-/* Или, если вы внутри server */
-cd ../client
-
+cd client
 pnpm install
+pnpm run dev
 ```
+
+Дев-сервер: [http://localhost:5173](http://localhost:5173) (см. вывод Vite).
+
+Фронт читает `VITE_*` из корневого `.env` (`envDir` в `vite.config.ts`).
