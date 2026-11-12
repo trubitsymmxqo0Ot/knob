@@ -13,5 +13,6 @@ services:
             - db-data:/var/lib/postgres/data
         env_file:
             - .env
+    minio
 volumes:
     db-data:

@@ -1,3 +1,2 @@
 allowBuilds:
-  '@heroui/shared-utils': set this to true or false
   '@scarf/scarf': false
