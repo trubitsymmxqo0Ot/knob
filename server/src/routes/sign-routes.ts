@@ -7,6 +7,9 @@ import { activeController } from '../auth/active/controller';
 import { emailValidator, nameValidator, passwordValidator } from '../config/validator';
 import { authMiddleware } from '../auth/middlewares/auth-middleware';
 import { refreshController } from '../auth/refresh/controller';
+import { validationResult } from 'express-validator';
+import { Params } from '../auth/sign-up/type';
+import { SignInParams } from '../auth/sign-in/type';
 
 const userRoutes = Router();
 
@@ -80,8 +83,15 @@ userRoutes.post(
     '/sign-up',
     emailValidator(),
     nameValidator(),
-    passwordValidator(),
-    signUpController.signUp
+    passwordValidator(), 
+    (req: Params, res, next) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        const message = result.array().map(err => err.msg);
+        return res.status(400).json({ message });
+    }
+    signUpController.signUp(req, res, next);
+    }
 );
 
 /**
@@ -148,9 +158,16 @@ userRoutes.post(
 userRoutes.post(
     '/sign-in',
     emailValidator(),
-    nameValidator(),
     passwordValidator(),
-    signIngController.signIn
+    (req: SignInParams, res, next) => {
+        const result = validationResult(req);
+        console.log(result);
+        if (!result.isEmpty()) {
+            const message = result.array().map(err => err.msg);
+            return res.status(400).json({ message });
+        }
+        signIngController.signIn(req, res, next);
+        }
 );
 
 /**
@@ -357,9 +374,8 @@ userRoutes.post(
  *         description: Внутренняя ошибка сервера
  */
 
-userRoutes.post(
+userRoutes.get(
     '/refresh',
-    authMiddleware,
     refreshController.refresh
 )
 

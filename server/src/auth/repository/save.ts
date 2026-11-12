@@ -7,15 +7,14 @@ import { ApiError } from "../exceptions/api-error";
 
 class Save {
     async saveOneUser(data: RequestUserBody, database: Database): Promise<DBUserResponse> {
-        const { email, name, password } = data;
+        const { email, name, password, role } = data;
         try {
-
             const saveUser: QueryResult<DBUserResponse> = await pool.query(`
-                INSERT INTO ${database} (email, name, password)
-                VALUES ($1, $2, $3)
+                INSERT INTO ${database} (email, name, password, role)
+                VALUES ($1, $2, $3, $4)
                 RETURNING *
                 `,
-                [email, name, password]
+                [email, name, password, role]
             )
 
             if (!saveUser.rows[0]) throw ApiError.BadRequest('Неудалось сохранить пользователя');

@@ -2,6 +2,7 @@ import { Env } from "../../config/env.config";
 import { UserDTOResponse } from "../dto/types/user-types";
 import { ApiError } from "../exceptions/api-error";
 import { find } from "../repository/find";
+import { remove } from "../repository/remove";
 import { save } from "../repository/save";
 import { DataFromRefToken, ReturnedTokens, TokenServiceResponse } from "./types";
 import jwt from 'jsonwebtoken';
@@ -10,7 +11,7 @@ class TokenService implements TokenServiceResponse {
     createTokens(payload: UserDTOResponse): ReturnedTokens {
         const accessSecret = Env.JWT_ACCESS_SECRET || '';
         const refreshSecret = Env.JWT_REFRESH_SCRET || '';
-        const accessToken = jwt.sign(payload, accessSecret, { expiresIn: '30m' });
+        const accessToken = jwt.sign(payload, accessSecret, { expiresIn: '1m' });
         const refreshToken = jwt.sign(payload, refreshSecret, { expiresIn: '30d' });
         return {
             accessToken,
@@ -43,6 +44,13 @@ class TokenService implements TokenServiceResponse {
             return null;
         }
         return decodingToken as DataFromRefToken;
+    }
+
+    async deleteToken(userId: string) {
+        const deleted = await remove.removeData(userId, '"userId"', 'tokens');
+        console.log(deleted);
+        if(!deleted) throw ApiError.UnknownError(500,'Не удалось удалить токен');
+        return deleted;
     }
 
     validateTokens(token: string, secret: string) {

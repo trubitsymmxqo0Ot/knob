@@ -10,14 +10,14 @@ import bcrypt from 'bcrypt';
 class SignInService {
   async signIn(body: RequestSignInBody): Promise<ReturnedUserValue> {
     try {
-
       const { email, password } = body;
+
       const data = await find.findOneData<ReturnedDBUserValue>(email, 'email', 'user_data');
       const isActualUser = await bcrypt.compare(password, data.password)
 
       if (!isActualUser) throw ApiError.BadRequest('Неправильный логин или пароль');
 
-      const userDTO = new UserDto(data.name, data.email, data.createdAt, data.id);
+      const userDTO = new UserDto(data.name, data.email, data.createdAt, data.id, data.role);
       const tokens = tokenService.createTokens({ ...userDTO });
       const savedTokens = await tokenService.saveToken(userDTO.id, tokens.refreshToken);
 
@@ -25,6 +25,7 @@ class SignInService {
         id: userDTO.id,
         name: userDTO.name,
         email: userDTO.email,
+        role: userDTO.role,
         createdAt: userDTO.createdAt,
         refreshToken: savedTokens.refreshToken,
         accessToken: tokens.accessToken,

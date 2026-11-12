@@ -1,23 +1,29 @@
 import { body } from "express-validator";
-import { Request } from "express";
 
 export const emailValidator = () =>
     body('email')
-        .isEmail()
+        .trim()
         .notEmpty()
+        .withMessage('Email обязателен')
+        .bail()
         .normalizeEmail()
+        .isEmail()
         .withMessage('Некорректный email');
 
 export const passwordValidator = () =>
     body('password')
-        .isLength({ min: 8 })
+        .trim()
         .notEmpty()
-        .withMessage('Пароль минимум в 8 символов');
+        .withMessage('Пароль обязателен')
+        .bail()
+        .isLength({ min: 8 })
+        .withMessage('Минимальная длинна пароля - 8 символов');
 
 export const nameValidator = () =>
     body('name')
         .trim()
         .notEmpty()
         .withMessage("Имя обязательно")
+        .bail()
         .isLength({ min: 3 })
-        .withMessage('Минимальная число символов - 3'); 
+        .withMessage('Минимальная длинна имени - 3 символа'); 

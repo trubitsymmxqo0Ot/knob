@@ -1,4 +1,4 @@
-import { ListBox } from "@heroui/react/list-box"
+import { Listbox } from "@heroui/listbox";
 import { SelectTrigger, Select, SelectValue, SelectPopover } from "@heroui/react/select"
 import type { ReactNode } from "react"
 
@@ -37,7 +37,7 @@ export const SelectExecutorTask = ({ children, name, placeholder = 'Выбери
                 </SelectValue>
             </SelectTrigger>
             <SelectPopover className='rounded-none bg-gray-900 text-white'>
-                <ListBox className="py-2 rounded-none gap-1 flex flex-col" selectionMode="multiple">
+                <Listbox className="py-2 rounded-none gap-1 flex flex-col" selectionMode="multiple">
                     {children}
                 </ListBox>
             </SelectPopover>

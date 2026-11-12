@@ -14,19 +14,22 @@ class RefreshServices {
 
         const findToken = await find.findOneData<ReturnedDBTokensValue>(token, '"refreshToken"', 'tokens');
         const findUser = await find.findOneData<ReturnedDBUserValue>(findToken.userId, 'id', 'user_data');
-
-        const userDto = new UserDto(findUser.name, findUser.email, findUser.createdAt, findUser.id);
+        const userDto = new UserDto(findUser.name, findUser.email, findUser.createdAt, findUser.id, findUser.role);
+        
+        await tokenService.deleteToken(userDto.id);
         const {refreshToken, accessToken} = tokenService.createTokens({
             createdAt: userDto.createdAt,
             email: userDto.email,
             id: userDto.id,
-            name: userDto.name
+            name: userDto.name,
+            role: userDto.role,
         });
         const savedTokens = await tokenService.saveToken(userDto.id, refreshToken);
         return {
             id: userDto.id,
             name: userDto.name,
             email: userDto.email,
+            role: userDto.role,
             createdAt: userDto.createdAt,
             refreshToken: savedTokens.refreshToken,
             accessToken

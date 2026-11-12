@@ -1,2 +1,21 @@
 @import "tailwindcss";
-@import "@heroui/styles"; 
+@plugin "./hero.ts";
+@source "../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@custom-variant dark (&:is(.dark *));
+
+[data-slot="toast"] {
+    background-color: #202224;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+[data-slot="toast-title"] {
+    color: red;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+[data-slot="toast-description"] {
+    color: #fff;
+}

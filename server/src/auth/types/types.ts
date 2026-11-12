@@ -1,8 +1,10 @@
+export type SelectRole = 'frontend' | 'backend' | 'fullstack' | 'designer' | 'devops' |'other';
 
 export interface ReturnedUserValue {
   id: string;
   email: string;
   name: string;
+  role: SelectRole;
   createdAt: string;
   accessToken: string;
   refreshToken: string;
@@ -19,6 +21,7 @@ export interface RequestUserBody {
     email: string;
     name: string;
     password: string;
+    role: SelectRole;
 }
 
 export interface ReturnedDBUserValue {
@@ -28,6 +31,7 @@ export interface ReturnedDBUserValue {
   name: string;
   password: string;
   isActive: boolean;
+  role: SelectRole;
 }
 
 export interface ReturnedDBTokensValue {

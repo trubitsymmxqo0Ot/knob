@@ -9,13 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as CreateTasksRouteImport } from './routes/create-tasks'
+import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisteryRouteImport } from './routes/registery'
+import { Route as ProtectedCreateTasksRouteImport } from './routes/_protected/create-tasks'
+import { Route as ProtectedProfileRouteImport } from './routes/_protected/profile'
 
-const CreateTasksRoute = CreateTasksRouteImport.update({
-  id: '/create-tasks',
-  path: '/create-tasks',
+const ProtectedRoute = ProtectedRouteImport.update({
+  id: '/_protected',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -28,44 +29,66 @@ const RegisteryRoute = RegisteryRouteImport.update({
   path: '/registery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedCreateTasksRoute = ProtectedCreateTasksRouteImport.update({
+  id: '/create-tasks',
+  path: '/create-tasks',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedProfileRoute = ProtectedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/create-tasks': typeof CreateTasksRoute
+  '/': typeof ProtectedRouteWithChildren
   '/login': typeof LoginRoute
   '/registery': typeof RegisteryRoute
+  '/create-tasks': typeof ProtectedCreateTasksRoute
+  '/profile': typeof ProtectedProfileRoute
 }
 export interface FileRoutesByTo {
-  '/create-tasks': typeof CreateTasksRoute
+  '/': typeof ProtectedRouteWithChildren
   '/login': typeof LoginRoute
   '/registery': typeof RegisteryRoute
+  '/create-tasks': typeof ProtectedCreateTasksRoute
+  '/profile': typeof ProtectedProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/create-tasks': typeof CreateTasksRoute
+  '/_protected': typeof ProtectedRouteWithChildren
   '/login': typeof LoginRoute
   '/registery': typeof RegisteryRoute
+  '/_protected/create-tasks': typeof ProtectedCreateTasksRoute
+  '/_protected/profile': typeof ProtectedProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/create-tasks' | '/login' | '/registery'
+  fullPaths: '/' | '/login' | '/registery' | '/create-tasks' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/create-tasks' | '/login' | '/registery'
-  id: '__root__' | '/create-tasks' | '/login' | '/registery'
+  to: '/' | '/login' | '/registery' | '/create-tasks' | '/profile'
+  id:
+    | '__root__'
+    | '/_protected'
+    | '/login'
+    | '/registery'
+    | '/_protected/create-tasks'
+    | '/_protected/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  CreateTasksRoute: typeof CreateTasksRoute
+  ProtectedRoute: typeof ProtectedRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisteryRoute: typeof RegisteryRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/create-tasks': {
-      id: '/create-tasks'
-      path: '/create-tasks'
-      fullPath: '/create-tasks'
-      preLoaderRoute: typeof CreateTasksRouteImport
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -82,11 +105,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisteryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/create-tasks': {
+      id: '/_protected/create-tasks'
+      path: '/create-tasks'
+      fullPath: '/create-tasks'
+      preLoaderRoute: typeof ProtectedCreateTasksRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/profile': {
+      id: '/_protected/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProtectedProfileRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
   }
 }
 
+interface ProtectedRouteChildren {
+  ProtectedCreateTasksRoute: typeof ProtectedCreateTasksRoute
+  ProtectedProfileRoute: typeof ProtectedProfileRoute
+}
+
+const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedCreateTasksRoute: ProtectedCreateTasksRoute,
+  ProtectedProfileRoute: ProtectedProfileRoute,
+}
+
+const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
+  ProtectedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  CreateTasksRoute: CreateTasksRoute,
+  ProtectedRoute: ProtectedRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisteryRoute: RegisteryRoute,
 }

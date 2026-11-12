@@ -1,4 +1,4 @@
-import { Button } from "@heroui/react/button"
+import { Button } from "@heroui/button"
 import { Link } from "@tanstack/react-router"
 import { routes } from "shared/model/routes"
 

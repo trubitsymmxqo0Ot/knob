@@ -10,14 +10,14 @@ class SignUpServices {
     async signUp(body: RequestUserBody): Promise<ReturnedUserValue> {
         try {
 
-            const { email, name, password } = body;
+            const { email, name, password, role } = body;
             const findUser = await find.hasData(email, 'email', 'user_data');
 
             if (findUser) throw ApiError.BadRequest('Пользователь уже существует');
 
             const hashPassword = await bcrypt.hash(password, 5);
-            const saveUser = await save.saveOneUser({ email, name, password: hashPassword }, 'user_data')
-            const userDTO = new UserDto(saveUser.name, saveUser.email, saveUser.createdAt, saveUser.id);
+            const saveUser = await save.saveOneUser({ email, name, password: hashPassword, role }, 'user_data')
+            const userDTO = new UserDto(saveUser.name, saveUser.email, saveUser.createdAt, saveUser.id, saveUser.role);
             const tokens = tokenService.createTokens({ ...userDTO });
             const savedTokens = await tokenService.saveToken(userDTO.id, tokens.refreshToken);
 
@@ -25,6 +25,7 @@ class SignUpServices {
                 id: userDTO.id,
                 email: userDTO.email,
                 name: userDTO.name,
+                role: userDTO.role,
                 createdAt: userDTO.createdAt,
                 refreshToken: savedTokens.refreshToken,
                 accessToken: tokens.accessToken,

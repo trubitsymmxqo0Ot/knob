@@ -1,12 +1,11 @@
 export const ACCESS_KEY = 'accessToken';
 
-const cookieToken = async () => {
+export const cookieToken = async () => {
     try {
+        if(typeof cookieStore === 'undefined') return undefined; 
         const cookie = await cookieStore.get(ACCESS_KEY);
         return cookie?.value;
     }  catch {
         return undefined;
     }
 } 
-
-export const getToken = await cookieToken();

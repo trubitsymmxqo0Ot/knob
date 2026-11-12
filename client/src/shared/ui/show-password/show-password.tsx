@@ -4,11 +4,12 @@ interface ShowPasswordProps {
     showPassword: boolean;
     setShowPassword: (showPassword: boolean) => void;
     className?: string;
+    tabIndex?: number;
 }
 
-export const ShowPassword = ({ setShowPassword, showPassword, className }: ShowPasswordProps) => {
+export const ShowPassword = ({ setShowPassword, showPassword, className, tabIndex }: ShowPasswordProps) => {
     return (
-        <div className={className}>
+        <div className={className} tabIndex={tabIndex}>
             {!showPassword ? (
                 <CloseEye size={22} onClick={() => setShowPassword(!showPassword)} />
             ) : (

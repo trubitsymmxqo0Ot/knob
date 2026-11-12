@@ -1,11 +1,10 @@
+import { SelectRole } from "../../types/types";
+
 export interface DBUserResponse {
     id: string;
     createdAt: string;
     email: string;
     name: string;
     password: string;
-}
-
-export interface DBUpdateData {
-    
+    role: SelectRole;
 }

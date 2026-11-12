@@ -1,14 +1,18 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { Providers } from 'app/providers'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { DefaultProviders } from 'app/default-providers';
 
-
+export interface ContextApi {
+    auth: boolean | null;
+}
 
 const RootLayout = () => {
     return (
-        <Providers>
+        <DefaultProviders>
             <Outlet />
-        </Providers>
+        </DefaultProviders>
     )
 }
 
-export const Route = createRootRoute({ component: RootLayout })
+export const Route = createRootRouteWithContext<ContextApi>()({ 
+    component: RootLayout, 
+})

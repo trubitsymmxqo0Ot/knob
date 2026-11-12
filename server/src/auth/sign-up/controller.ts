@@ -9,8 +9,8 @@ class SignUpController {
   async signUp(req: Params, res: Response, next: NextFunction): Promise<void> {
     try {
 
-      const { email, password, name } = req.body;
-      const response = await signUpServices.signUp({ email, name, password });
+      const { email, password, name, role } = req.body;
+      const response = await signUpServices.signUp({ email, name, password, role });
 
       if (!response) throw ApiError.BadRequest('Неудалось создать пользователя');
 
@@ -19,10 +19,11 @@ class SignUpController {
       const returnedData = {
         name: response.name,
         email: response.email,
-        createdAt: response.createdAt
+        createdAt: response.createdAt,
+        role: response.role,
       }
 
-      mailSend.send(response.email, response.id);
+      // mailSend.send(response.email, response.id);
 
       res.json(returnedData);
 
